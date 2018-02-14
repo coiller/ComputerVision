@@ -1,0 +1,36 @@
+function [x,y,score,Ix,Iy]=extract_keypoints(image)
+k=0.05;%set the value of k (from the "Harris Detector: Algorithm" slide) to 0.05
+% Compute the horizontal image gradient Ix and the vertical image gradient Iy.
+Ix=imfilter(image,F(:,:,4),'conv');
+Iy=imfilter(image,F(:,:,1),'conv');
+% Finally, initialize with zeros a matrix R of the same size as the image that
+% will store the "cornerness" scores for each pixel.
+sx=size(image,2);
+sy=size(image,1);
+x=[];
+y=[];
+score=[];
+R=zeros(sx,sy,'uint32');
+Ms=zeros(2,2,sx,sy,'uint32');
+for m=1:sx
+    for n=1:sy
+        Ms(:,:,m,n)=[Ix(m,n)^2,Ix(m,n)*Iy(m,n);Ix(m,n)*Iy(m,n),Iy(m,n)^2];
+    end
+end
+for m=3:sx-2
+    for n=3:sy-2
+        M=sum(sum(Ms(:,:,m-2:m+2,n-2:n+2),3),4);
+        R(m,n)=det(M)-k*trace(M);
+    end
+end
+top=round((size(R,1)-2)*(size(R,2)-2)*0.01);
+sR=sort(R(:),'descend');
+threshold=sR(top);
+for m=4:sx-3
+    for n=4:sy-3
+        if R(m,n)>threshold && R(m,n)==max(max(R(m-1:m+1,n-1:n+1)))
+                x=[x;m];y=[y;n];score=[score;R(m,n)];
+        end
+    end
+end
+end

@@ -1,0 +1,10 @@
+function [texture_repr_concat, texture_repr_mean]=computeTextureReprs (image, F)
+responses =zeros([size(F,3),size(image)]);
+texture_repr_concat=zeros(1,size(F,3),)
+texture_repr_mean=zeros(1,size(F,3));
+for i=1:size(F,3)
+    responses(i,:,:)=imfilter(image,F(:,:,i),'conv');
+    texture_repr_mean(i)=mean2(responses(i,:,:));
+    texture_repr_concat(1,i,:)=reshape(responses(i,:,:),1,[]);
+end
+end

@@ -1,0 +1,18 @@
+bag of words=0.7965
+texture_repr_concat=0.9180
+texture_repr_mean =0.3293
+
+So, the texture_repr_mean has the smallest within-between ratio.
+
+This is not as I expected. I expected bag of words maybe the one.
+
+The reason I think is maybe most of the keypoint detected in bag of words are
+meaningless because those are backgroud not the animal. Besides, maybe the means
+is not so good to mark the animal. Therefore,bag of word failed on this.
+
+On the contrary, the texture of those animals are quite different. So,their
+response to different filter is also significant. That's why the texture work.
+And for the texture_repr_concat, it maybe affected by the noisy background.
+
+The best descriptor is the texture_repr_mean,because it has the best cluster 
+result and easy to implement and also efficent to use.
