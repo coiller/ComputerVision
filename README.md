@@ -13,6 +13,7 @@
     - ### SIFT + BOW
 
         Implemented feature extraction using the Harris corner detector and a feature description pipeline. Computed a bag-of-words histogram representation of an image.  
+    ![](https://github.com/coiller/ComputerVision/blob/master/vis11.jpg)
 
     - ### Texture Description
 
